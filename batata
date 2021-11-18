@@ -1,0 +1,96 @@
+Create table Uf(
+codigo Int Identity(1,1) not null,
+nome Varchar(max),
+sigla Char (2),
+primary key (codigo)
+)
+ Create table Cidade(
+ codigo Int Identity(1,1) not null,
+ nome Varchar(MAX),
+ codigoUf int not null
+ Primary Key (codigo)
+ constraint FK_Uf
+	Foreign Key (codigoUf)
+		References Uf(codigo)
+)
+
+ Create table Bairro(
+ codigo Int Identity(1,1) not null,
+ nome Varchar(MAX),
+ codigoCidade int not null
+ Primary Key (codigo)
+ constraint FK_Cidade
+	Foreign Key (codigoCidade)
+		References Cidade(codigo)
+)
+
+ Create table Rua(
+ codigo Int Identity(1,1) not null,
+ nome Varchar(MAX),
+ codigoBairro int not null
+ Primary Key (codigo)
+ constraint FK_Bairro
+	Foreign Key (codigoBairro)
+		References Bairro(codigo)
+)
+
+ Create table Endereco(
+ codigo Int Identity(1,1) not null,
+ codigoRua int not null,
+ numero int not null,
+ complemento Varchar(MAX),
+ referencia Text
+ Primary Key (codigo)
+ constraint FK_Rua
+	Foreign Key (codigoRua)
+		References Rua(codigo)
+)
+
+Create table Sexo(
+codigo Int Identity not null,
+nome Varchar(MAX)
+Primary Key (codigo)
+)
+
+Create table Vacina(
+codigo Int Identity not null,
+nome Varchar(max),
+qtdDoses Smallint
+primary key (codigo)
+)
+
+create table Usuario(
+codigo int Identity not null,
+nome Varchar(max),
+email varchar(max),
+codigoSexo int,
+cpf varchar(11),
+dataNascimento Date,
+telefone varchar(11),
+codigoVacina int not null,
+codigoEndereco int not null
+primary key (codigo)
+Constraint FK_Sexo
+	Foreign Key (codigoSexo) 
+		references Sexo(codigo),
+Constraint FK_Vacina
+	Foreign Key (codigoVacina) 
+		references Vacina(codigo),
+Constraint FK_Endereco
+	Foreign Key (codigoEndereco) 
+		references Endereco(codigo)
+)
+
+Create Table Pesquisa(
+codigo int Identity not null,
+sintoma Bit not null,
+observacao varchar(MAX),
+dataPesquisa date,
+situacao bit,
+codigoUsuario Int not null
+primary Key (codigo)
+Constraint FK_usuarioPesquisa
+	Foreign Key (codigoUsuario)
+		references Usuario(codigo)
+)
+
